@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('object:player', 'player', {
+moduleFor('object:player', 'Player', {
   // Specify the other units that are required for this test.
   needs: []
 });
