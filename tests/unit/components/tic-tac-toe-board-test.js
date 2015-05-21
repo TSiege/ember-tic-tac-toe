@@ -1,5 +1,5 @@
 import { 
-  moduleFor,
+  moduleForComponent,
   test,
   assert
 } from 'ember-qunit';
