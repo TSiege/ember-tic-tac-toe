@@ -1,6 +1,7 @@
-import {
-  moduleForComponent,
-  test
+import { 
+  moduleFor,
+  test,
+  assert
 } from 'ember-qunit';
 
 moduleForComponent('tic-tac-toe-board', {

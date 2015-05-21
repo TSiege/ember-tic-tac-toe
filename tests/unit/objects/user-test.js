@@ -1,4 +1,8 @@
-import { moduleFor, test } from 'ember-qunit';
+import { 
+  moduleFor,
+  test,
+  assert
+} from 'ember-qunit';
 
 moduleFor('object:user', 'User', {
   // Specify the other units that are required for this test.
