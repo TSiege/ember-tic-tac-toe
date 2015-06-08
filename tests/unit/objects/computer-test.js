@@ -13,7 +13,6 @@ moduleFor('object:computer', 'Computer', {
 test('plays in the center when user\'s first move is a corner', function(){
   var board = [['O','2','3'],['4','5','6'],['7','8','9']];
   var move = this.computer.takeTurn(board);
-  console.log(move)
   assert.deepEqual(move, [['O','2','3'],['4','X','6'],['7','8','9']]);
 });
 test('plays in any corner when user\'s first move is the center', function(){
