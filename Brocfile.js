@@ -5,5 +5,6 @@ var app = new EmberApp({
 });
 
 app.import('./bower_components/lodash/lodash.js');
+app.import('./bower_components/skeleton/css/skeleton.css');
 
 module.exports = app.toTree();
