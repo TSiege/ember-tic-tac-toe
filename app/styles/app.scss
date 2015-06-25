@@ -1,47 +1,45 @@
+@import 'base';
+
 .holder {
-    margin: 0 auto;
-    max-width: 457px;
-    width: 100%;
+  margin: 0 auto;
+  max-width: 457px;
+  width: 100%;
 }
-.board {
-    background: red;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    border:1px solid #737377;
-    box-sizing:border-box;
-}
-.board:before {
-    content:"";
-    display: block;
-    padding-top: 100%;
-}
-.lines {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-}
-.line {
-    width: 100%;
-}
+
 .tile {
-    float: left;
-    width: 33.3333%;
-    border:1px solid #737377;
-    box-sizing:border-box;
-    background: white;
+  float: left;
+  width: 33.3333%;
+  border: 1px solid $theme-black;
+  box-sizing: border-box;
+  background: white;
 }
+
 .tile:before {
-    content:"";
-    display: block;
-    padding-top: 100%;
+  content: "";
+  display: block;
+  padding-top: 100%;
 }
+
 .tile-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+  position: absolute;
+}
+
+.marker {
+  position: relative;
+}
+
+.top {
+  border-top: 0px;
+}
+
+.bottom {
+  border-bottom: 0px;
+}
+
+.left {
+  border-left: 0px;
+}
+
+.right {
+  border-right: 0px;
 }
