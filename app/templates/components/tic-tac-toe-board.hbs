@@ -1,51 +1,13 @@
 <div class="holder">
 
-      <div class="tile top left">
+  {{#each row in rows}}
+    {{#each column in columns}}
+      <div class="tile {{row}} {{column}}" {{action "takeTurn" row column}}>
         <div class="tile-content">
-          {{fa-icon "star" classNames="marker"}}
+          {{fa-icon "" classNames="marker"}}
         </div>
       </div>
-      <div class="tile top middle">
-        <div class="tile-content">
-          {{fa-icon "star" classNames="marker"}}
-        </div>
-      </div>
-      <div class="tile top right">
-        <div class="tile-content">
-          {{fa-icon "star" classNames="marker"}}
-        </div>
-      </div>
-
-      <div class="tile left">
-        <div class="tile-content">
-          {{fa-icon "star" classNames="marker"}}
-        </div>
-      </div>
-      <div class="tile middle">
-        <div class="tile-content">
-          {{fa-icon "star" classNames="marker"}}
-        </div>
-      </div>
-      <div class="tile right">
-        <div class="tile-content">
-          {{fa-icon "star" classNames="marker"}}
-        </div>
-      </div>
-
-      <div class="tile bottom left">
-        <div class="tile-content">
-          {{fa-icon "star" classNames="marker"}}
-        </div>
-      </div>
-      <div class="tile bottom middle">
-        <div class="tile-content">
-          {{fa-icon "star" classNames="marker"}}
-        </div>
-      </div>
-      <div class="tile bottom right">
-        <div class="tile-content">
-          {{fa-icon "star" classNames="marker"}}
-        </div>
-      </div>
+    {{/each}}
+  {{/each}}
 
 </div>

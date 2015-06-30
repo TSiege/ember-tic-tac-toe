@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  rows: ['top', 'center', 'bottom'],
+  columns: ['left', 'middle', 'right'],
+
   init: function() {
     this.tileResizer();
     this.markerResizer();
@@ -45,9 +48,9 @@ export default Ember.Component.extend({
     setTimeout(repositionMarkers, 1);
   },
 
-  action: {
-    move: function(){
-      console.log(this);
+  actions: {
+    takeTurn: function(){
+      console.log(arguments);
     }
   }
 });
