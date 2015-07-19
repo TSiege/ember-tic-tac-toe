@@ -13,7 +13,8 @@
   - inherits from player
   - handles logic for taking user input
 
-###Game State (Object)
+###Game State (Service)
+  - singleton
   - manages the game’s state
   - knows who has one/who’s turn it is
 
