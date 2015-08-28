@@ -1,54 +1,66 @@
 import Player from './player';
 
 export default Player.extend({
-  takeTurn: function(board){
-    this.set('board', board);
-    return this._minimax(1);
+  takeTurn(board){
+    this.board = board;
+    return this._minimax(1)[1];
   },
   // private methods
-  _getFreeSpaces: function(){
+  _getFreeSpaces(){
+    var row;
+    var space;
     var spaces = [];
-    this.get('board').forEach(function(row, rowIndex){
-      row.forEach(function( space, columnIndex ){
-        if (space !== 'O' && space !== 'X') {
-          spaces.push([rowIndex, columnIndex]);
+    var board  = this.board;
+    for (var rowIndex = 0; board.length > rowIndex ; rowIndex++) {
+      row = board[rowIndex]
+      for (var colIndex = 0; row.length > colIndex; colIndex++) {
+        space = row[colIndex]
+        if (space !== 'user' && space !== 'computer') {
+          spaces.push([rowIndex, colIndex]);
         }
-      });
-    });
+      }
+    };
+
     return spaces;
   },
-  _minimax: function(number){
-    var moveWinners = [];
+  _minimax(number){
     var player;
-    var originalPiece;
     var winner;
-    var self = this;
-    
-    this._getFreeSpaces().forEach(function(row, rowIndex){
+    var freeSpace;
+    var originalTile;
+
+    var board       = this.board;
+    var freeSpaces  = this._getFreeSpaces()
+    var moveWinners = [];
+    var startTime = Date.now();
+    for (var spaceIndex = 0; freeSpaces.length > spaceIndex; spaceIndex++) {
+      freeSpace = freeSpaces[spaceIndex];
       // we determine if the move being made is the computers or the users
-      // -1 represents the computer
-      // 1 represents the user
-      player = number === -1 ? 'X' : 'O';
+      // 1 represents the computer
+      // -1 represents the user
+      player = number === -1 ? 'user' : 'computer';
       // we assign the original piece 
       // so we can reset the board when we're done
-      originalPiece = self.board[row[0]][row[1]];
+      originalTile = board[freeSpace[0]][freeSpace[1]];
       // we now try a tile
-      self.board[row[0]][row[1]] = player;
-
+      board[freeSpace[0]][freeSpace[1]] = player;
       // we determine the value of tile we took
-      if( self._hasWon() ) {
+      if( this._hasWon() ) {
+        // this move resulted in a player winning
         winner = number;
-      } else if ( self._getFreeSpaces().length === 0 ) {
+      } else if ( this._getFreeSpaces().length === 0 ) {
+        // this game has tied
         winner = 0;
       } else {
-        winner = self._minimax(-number)[0];
+        // keep going since no one has won
+        winner = this._minimax(-number)[0];
       }
 
       // we push that value into coordinate into the array of tiles
-      moveWinners.push( [winner, [row[0], row[1]]] );
+      moveWinners.push( [winner, [freeSpace[0], freeSpace[1]]] );
       // we reset the board
-      self.board[row[0]][row[1]] = originalPiece;
-    });
+      board[freeSpace[0]][freeSpace[1]] = originalTile;
+    };
 
     // if the number (the player) is the user and we found a winning move...
     if( number === 1 && moveWinners.length > 0 ){
@@ -59,37 +71,37 @@ export default Player.extend({
       return _.min(moveWinners, function(arr){ return arr[0]; });
     }
   },
-  _hasWon: function(){
+  _hasWon(){
     return this._isDiagonalWinner()
       || this._isHorizontalWinner()
       || this._isVerticalWinner();
   },
-  _isDiagonalWinner: function(){
-    var middle = this.get('board')[1][1],
-        diag1 = this.get('board')[0][0] === middle && middle === this.get('board')[2][2],
-        diag2 = this.get('board')[0][2] === middle && middle === this.get('board')[2][0];
+  _isDiagonalWinner(){
+    var middle = this.board[1][1],
+        diag1 = this.board[0][0] === middle && middle === this.board[2][2],
+        diag2 = this.board[0][2] === middle && middle === this.board[2][0];
     return diag1 || diag2;
   },
-  _isHorizontalWinner: function(){
+  _isHorizontalWinner(){
     var row = 0,
         middle;
 
     while( row < 3 ) {
-      middle = this.get('board')[row][1]
-      if( this.get('board')[row][0] === middle && middle === this.get('board')[row][2] ){
+      middle = this.board[row][1]
+      if( this.board[row][0] === middle && middle === this.board[row][2] ){
         return true;
       }
       row += 1;
     }
     return false;
   },
-  _isVerticalWinner: function(){
+  _isVerticalWinner(){
     var column = 0,
         middle;
 
     while( column < 3 ) {
-      middle = this.get('board')[1][column]
-      if( this.get('board')[0][column] == middle && middle == this.get('board')[2][column] ) {
+      middle = this.board[1][column]
+      if( this.board[0][column] == middle && middle == this.board[2][column] ) {
         return true;
       }
       column += 1;
