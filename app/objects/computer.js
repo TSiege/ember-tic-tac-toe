@@ -1,6 +1,7 @@
-import Player from './player';
+import Ember     from 'ember';
+import Scoreable from '../mixins/scoreable';
 
-export default Player.extend({
+export default Ember.Object.extend(Scoreable, {
   takeTurn(board){
     this.board = board;
     return this._minimax(1)[1];
@@ -45,7 +46,7 @@ export default Player.extend({
       // we now try a tile
       board[freeSpace[0]][freeSpace[1]] = player;
       // we determine the value of tile we took
-      if( this._hasWon() ) {
+      if( this.hasWon() ) {
         // this move resulted in a player winning
         winner = number;
       } else if ( this._getFreeSpaces().length === 0 ) {
@@ -70,42 +71,5 @@ export default Player.extend({
       // return the worst move...
       return _.min(moveWinners, function(arr){ return arr[0]; });
     }
-  },
-  _hasWon(){
-    return this._isDiagonalWinner()
-      || this._isHorizontalWinner()
-      || this._isVerticalWinner();
-  },
-  _isDiagonalWinner(){
-    var middle = this.board[1][1],
-        diag1 = this.board[0][0] === middle && middle === this.board[2][2],
-        diag2 = this.board[0][2] === middle && middle === this.board[2][0];
-    return diag1 || diag2;
-  },
-  _isHorizontalWinner(){
-    var row = 0,
-        middle;
-
-    while( row < 3 ) {
-      middle = this.board[row][1]
-      if( this.board[row][0] === middle && middle === this.board[row][2] ){
-        return true;
-      }
-      row += 1;
-    }
-    return false;
-  },
-  _isVerticalWinner(){
-    var column = 0,
-        middle;
-
-    while( column < 3 ) {
-      middle = this.board[1][column]
-      if( this.board[0][column] == middle && middle == this.board[2][column] ) {
-        return true;
-      }
-      column += 1;
-    }
-    return false;
   }
 });
