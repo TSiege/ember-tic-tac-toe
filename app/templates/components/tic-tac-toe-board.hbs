@@ -1,10 +1,10 @@
 <div class="holder">
 
-  {{#each row in rows}}
-    {{#each column in columns}}
+  {{#each rows as |row|}}
+    {{#each columns as |column|}}
       <div class="tile {{row}} {{column}}" {{action "takeTurn" row column}}>
         <div class="tile-content">
-          {{fa-icon ""}}
+          <i class="fa"></i>
         </div>
       </div>
     {{/each}}
