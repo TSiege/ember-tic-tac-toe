@@ -17,14 +17,14 @@ export default Ember.Service.extend(Scoreable, {
     ['.bottom.left', '.bottom.middle', '.bottom.right']
   ],
 
-  lastTurn: { player: null, position: null }, 
+  lastTurn: { player: null, position: null },
 
   init(){
     this.set('computer', Computer.create());
   },
 
   isSpaceTaken(position){
-    var tile = this.get('lexicalBoard' + position);
+    let tile = this.get('lexicalBoard' + position);
     return tile === 'user' || tile === 'computer';
   },
 
@@ -33,7 +33,7 @@ export default Ember.Service.extend(Scoreable, {
   },
 
   userTurn(position){
-    var space = this.get('lexicalBoard' + position);
+    let space = this.get('lexicalBoard' + position);
     this.set('lexicalBoard' + position, 'user');
     this.set('lastTurn', {player: 'user', position: position});
     this.get('board')[space[0]][space[1]] = 'user';
@@ -41,8 +41,8 @@ export default Ember.Service.extend(Scoreable, {
   },
 
   computerTurn(){
-    var space = this.get('computer').takeTurn(this.get('board'));
-    var position = this.board[space[0]][space[1]];
+    let space = this.get('computer').takeTurn(this.get('board'));
+    let position = this.board[space[0]][space[1]];
     this.board[space[0]][space[1]] = 'computer';
     this.set('lexicalBoard' + position, 'computer');
     this.set('lastTurn', {player: 'computer', position: position});
