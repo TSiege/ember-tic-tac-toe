@@ -10,6 +10,7 @@
   border: 1px solid var(--themeBlack);
   box-sizing: border-box;
   background: white;
+  position: relative;
 }
 
 .tile:before {
@@ -20,6 +21,9 @@
 
 .tile-content {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .marker {

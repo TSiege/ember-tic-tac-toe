@@ -9,7 +9,6 @@ export default Ember.Component.extend({
 
   init() {
     this.tileResizer();
-    this.markerResizer();
 
     this._super(...arguments);
   },
@@ -27,7 +26,7 @@ export default Ember.Component.extend({
   },
 
   tileResizer(){
-    var resizeTiles = function(){
+    let resizeTiles = function(){
       let $tiles = Ember.$('.tile');
       let width  = $tiles.first().width();
 
@@ -39,27 +38,9 @@ export default Ember.Component.extend({
     setTimeout(resizeTiles, 1);
   },
 
-  markerResizer() {
-    var repositionMarkers = function() {
-      let $markers     = Ember.$('.marker');
-      let $marker      = $markers.first();
-      let markerWidth  = $marker.width() / 2;
-      let markerHeight = $marker.height() / 2;
-      let $tile        = Ember.$('.tile').first();
-      let left         = ($tile.width() / 2 - markerWidth);
-      let bottom       = ($tile.height() / 2 + markerHeight);
-
-      $markers.css({bottom: bottom, left: left});
-    };
-
-    this.repositionMarkers = repositionMarkers;
-    Ember.$(window).bind('resize', repositionMarkers);
-    setTimeout(repositionMarkers, 1);
-  },
-
   actions: {
     takeTurn(row, column){
-      var position = '.' + row + '.' + column;
+      let position = `.${row}.${column}`;
 
       if( this.get('gameState').isSpaceTaken(position) ){
         return;
@@ -70,8 +51,8 @@ export default Ember.Component.extend({
   },
   // private methods
   _markPosition(position, player){
-    let playerMarker = this.get(player + 'Marker');
-    Ember.$(position + ' .fa').addClass(playerMarker + ' marker');
-    this.markerResizer();
+    let playerMarker = this.get(`${player}Marker`);
+    let marker = player === 'user' ? 'x' : 'o';
+    Ember.$(position + ' .fa').text(marker);
   }
 });
