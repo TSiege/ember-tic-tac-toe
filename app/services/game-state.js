@@ -1,5 +1,5 @@
 import Ember     from 'ember';
-import Computer  from '../objects/computer'
+import Computer  from '../objects/better-computer';
 import Scoreable from '../mixins/scoreable';
 
 export default Ember.Service.extend(Scoreable, {
