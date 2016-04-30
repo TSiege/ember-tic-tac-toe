@@ -1,6 +1,5 @@
 export const USER = 'user';
 export const COMPUTER = 'computer';
-const lineScores = {3: 0, 2: 10, 1: 100};
 
 export function hasWon(board){
   return isDiagonalWinner(board) ||
@@ -48,44 +47,6 @@ function isVerticalWinner(board){
   return false;
 }
 
-export function scoreGame(board, player){
-  let scores = getLines(board).map(scoreLine);
-  if (player === COMPUTER) {
-    return _.max(scores);
-  } else {
-    return _.min(scores);
-  }
-}
-
-// if line has no players tiles its value is zero
-// if line has at least one tile for each player value is zero
-// if line has two same tiles and one empty values is 10
-// if line has three of the same kind is 100
-function scoreLine(line){
-  if ( line.includes(COMPUTER) && line.includes(USER) ) { return 0; }
-  let multiplier = line.includes(COMPUTER) ? 1 : -1;
-  let length = _.uniq(line).length;
-//if(lineScores[length] === 10 ) {console.log(line)}
-  return lineScores[length] * multiplier;
-}
-
-function getLines(board){
-  return _.concat(board, getColumns(board), getDiagonals(board));
-}
-
-function getDiagonals(board){
-  let diag1 = [board[0][0], board[1][1], board[2][2]];
-  let diag2 = [board[2][0], board[1][1], board[0][2]];
-  return [diag1, diag2];
-}
-
-function getColumns(board){
-  let col1 = [board[0][0], board[1][0], board[2][0]];
-  let col2 = [board[0][1], board[1][1], board[2][1]];
-  let col3 = [board[0][2], board[1][2], board[2][2]];
-  return [col1, col2, col3];
-}
-
 export function getFreeSpaces(board){
   let row;
   let space;
@@ -101,4 +62,14 @@ export function getFreeSpaces(board){
   }
 
   return spaces;
+}
+
+export function isGameOver(board){
+  return hasWon(board) || !getFreeSpaces(board).length;
+}
+
+export function scoreGame(board, player, depth){
+  let score = hasWon(board) ? 10 : 0;
+  let multiplier = player === COMPUTER ? 1 : -1;
+  return (score - depth) * multiplier;
 }
