@@ -1,75 +1,63 @@
-import Ember     from 'ember';
-import Scoreable from '../mixins/scoreable';
+import { isGameOver, getFreeSpaces, scoreGame, USER, COMPUTER } from '../utils/scoring';
+import Ember from 'ember';
 
-export default Ember.Object.extend(Scoreable, {
+export default Ember.Object.extend({
   takeTurn(board){
-    this.board = board;
-    return this._minimax(1)[1];
-  },
-  // private methods
-  _getFreeSpaces(){
-    var row;
-    var space;
-    var spaces = [];
-    var board  = this.board;
-    for (var rowIndex = 0; board.length > rowIndex ; rowIndex++) {
-      row = board[rowIndex]
-      for (var colIndex = 0; row.length > colIndex; colIndex++) {
-        space = row[colIndex]
-        if (space !== 'user' && space !== 'computer') {
-          spaces.push([rowIndex, colIndex]);
-        }
-      }
-    };
-
-    return spaces;
-  },
-  _minimax(number){
-    var player;
-    var winner;
-    var freeSpace;
-    var originalTile;
-
-    var board       = this.board;
-    var freeSpaces  = this._getFreeSpaces()
-    var moveWinners = [];
-    var startTime = Date.now();
-    for (var spaceIndex = 0; freeSpaces.length > spaceIndex; spaceIndex++) {
-      freeSpace = freeSpaces[spaceIndex];
-      // we determine if the move being made is the computers or the users
-      // 1 represents the computer
-      // -1 represents the user
-      player = number === -1 ? 'user' : 'computer';
-      // we assign the original piece 
-      // so we can reset the board when we're done
-      originalTile = board[freeSpace[0]][freeSpace[1]];
-      // we now try a tile
-      board[freeSpace[0]][freeSpace[1]] = player;
-      // we determine the value of tile we took
-      if( this.hasWon() ) {
-        // this move resulted in a player winning
-        winner = number;
-      } else if ( this._getFreeSpaces().length === 0 ) {
-        // this game has tied
-        winner = 0;
-      } else {
-        // keep going since no one has won
-        winner = this._minimax(-number)[0];
-      }
-
-      // we push that value into coordinate into the array of tiles
-      moveWinners.push( [winner, [freeSpace[0], freeSpace[1]]] );
-      // we reset the board
-      board[freeSpace[0]][freeSpace[1]] = originalTile;
-    };
-
-    // if the number (the player) is the user and we found a winning move...
-    if( number === 1 && moveWinners.length > 0 ){
-      // return the best move...
-      return _.max(moveWinners, function(arr){ return arr[0]; });
-    } else {
-      // return the worst move...
-      return _.min(moveWinners, function(arr){ return arr[0]; });
-    }
+    let { move } = minimax(board, COMPUTER);
+    return move;
   }
 });
+
+function minimax(board, player, depth=0) {
+  //if middle tile isn't taken take it
+  if (!_.includes([COMPUTER, USER], board[1][1])) { return {move: [[1],[1]]}; }
+  //create an empty array of possible moves
+  let moves = [];
+  //retrieve free spaces
+  let freeSpaces = getFreeSpaces(board);
+  //if there are no freeSpaces return null for move
+  if (!freeSpaces.length) { return {move: null}; }
+  //set adversary for recursive calls
+  let adversary = player === COMPUTER ? USER : COMPUTER;
+
+  //increment depth
+  depth++;
+
+  //iterate through potential moves
+  for (let spaceIndex = 0; freeSpaces.length > spaceIndex; spaceIndex++) {
+    let score;
+    //select a move to try
+    let move = freeSpaces[spaceIndex];
+    //store original tile to reset board
+    let originalTile = board[move[0]][move[1]];
+    //take selected move
+    takeSpace(board, move, player);
+
+    if (isGameOver(board)) {
+      //if game is over score move
+      score = scoreGame(board, player, depth);
+    } else {
+      //if game is not over keep going...
+      score = minimax(board, adversary, depth).score;
+    }
+
+    //push move and final score into array of possible moves
+    moves.push({score, move});
+    //replace original tile on the board
+    takeSpace(board, move, originalTile);
+  }
+
+  if (player === COMPUTER && moves.length > 0) {
+    //if player is computer the best move it can make
+    return _.maxBy(moves, (obj) => { return obj.score; });
+  } else {
+    //if player is human the best move it can make
+    //AKA the worst move for the computer
+    return _.minBy(moves, (obj) => { return obj.score; });
+  }
+}
+
+function takeSpace(board, space, tile) {
+  board[space[0]][space[1]] = tile;
+  return board;
+}
