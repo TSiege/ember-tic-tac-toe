@@ -9,5 +9,22 @@
       </div>
     {{/each}}
   {{/each}}
-
 </div>
+
+{{#if hasGameStarted}}
+  <button {{action "reset"}}>Start Over</button>
+{{else}}
+  <span>Who goes first?</span>
+  <span {{action "startGame" "computer"}}>Computer</span>
+  <span {{action "startGame" "human"}}>Human</span>
+{{/if}}
+
+{{#if hasTied}}
+  <span>Tie Game!</span>
+  <span>{{randomTiedText}}</span>
+{{/if}}
+
+{{#if hasComputerWon}}
+  <span>Computer Wins!</span>
+  <span>{{randomLostText}}</span>
+{{/if}}
