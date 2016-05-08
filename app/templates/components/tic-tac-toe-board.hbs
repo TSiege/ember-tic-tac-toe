@@ -1,30 +1,35 @@
-<div class="holder">
+<div class="game-announcements twelve columns">
+  {{#if hasTied}}
+    <div>Tie Game!</div>
+    <div>{{randomTiedText}}</div>
+  {{/if}}
 
+  {{#if hasComputerWon}}
+    <div>Computer Wins!</div>
+    <div>{{randomLostText}}</div>
+  {{/if}}
+</div>
+
+<div class="holder">
   {{#each rows as |row|}}
     {{#each columns as |column|}}
       <div class="tile {{row}} {{column}}" {{action "takeTurn" row column}}>
-        <div class="tile-content">
-          <i class="fa"></i>
-        </div>
+        <div class="tile-content"></div>
       </div>
     {{/each}}
   {{/each}}
 </div>
 
-{{#if hasGameStarted}}
-  <button {{action "reset"}}>Start Over</button>
-{{else}}
-  <span>Who goes first?</span>
-  <span {{action "startGame" "computer"}}>Computer</span>
-  <span {{action "startGame" "human"}}>Human</span>
-{{/if}}
-
-{{#if hasTied}}
-  <span>Tie Game!</span>
-  <span>{{randomTiedText}}</span>
-{{/if}}
-
-{{#if hasComputerWon}}
-  <span>Computer Wins!</span>
-  <span>{{randomLostText}}</span>
-{{/if}}
+<div class="game-choices twelve columns">
+  {{#if hasGameStarted}}
+    <button {{action "reset"}}>Start Over</button>
+  {{else}}
+    <span class="twelve columns">Who goes first?</span>
+    <p class="six columns" {{action "startGame" "computer"}}>
+      {{inline-svg "assets/fonts/technology.svg" class="computer"}}
+    </p>
+    <p class="six columns" {{action "startGame" "human"}}>
+      {{inline-svg "assets/fonts/black.svg" class="human"}}
+    </p>
+  {{/if}}
+</div>

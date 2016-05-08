@@ -1,2 +1,11 @@
 @import "base.css";
 @import "tic-tac-toe-board.css";
+
+.heading {
+  text-align: center;
+  color: var(--themeBlackDark);
+}
+
+.columns {
+  margin-left: 0;
+}

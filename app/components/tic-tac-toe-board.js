@@ -99,13 +99,13 @@ export default Component.extend({
 
   _markPosition(position, player){
     let marker = player === COMPUTER ? 'o' : 'x';
-    $(`${position} .fa`).text(marker);
+    $(`${position} .tile-content`).text(marker);
   },
 
   _clearBoard(){
     this.get('rows').forEach((row) => {
       this.get('columns').forEach((col) => {
-        $(`.${row}.${col} .fa`).text('');
+        $(`.${row}.${col} .tile-content`).text('');
       });
     });
   }
