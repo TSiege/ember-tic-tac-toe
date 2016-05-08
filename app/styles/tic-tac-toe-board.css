@@ -1,0 +1,80 @@
+.holder {
+  margin: 0 auto;
+  max-width: 457px;
+}
+
+.tile {
+  float: left;
+  width: 33.3333%;
+  border: 1px solid var(--themeBlack);
+  box-sizing: border-box;
+  background: white;
+  position: relative;
+}
+
+.tile:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.tile-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--themeTealDark);
+  font-size: 3em;
+}
+
+.marker {
+  position: relative;
+}
+
+.top {
+  border-top: 0px;
+}
+
+.bottom {
+  border-bottom: 0px;
+}
+
+.left {
+  border-left: 0px;
+}
+
+.right {
+  border-right: 0px;
+}
+
+.computer {
+  width: 20%;
+  height: 0%;
+  fill: var(--themeTeal);
+}
+
+.computer:hover {
+  cursor: pointer;
+  fill: var(--themeTealDark);
+}
+
+.human {
+  width: 20%;
+  height: 0%;
+  fill: var(--themeTeal);
+}
+
+.human:hover {
+  fill: var(--themeTealDark);
+  cursor: pointer;
+}
+
+.game-choices {
+  text-align: center;
+  margin-top: 2em;
+}
+
+.game-announcements {
+  text-align: center;
+  margin-bottom: 1em;
+}
