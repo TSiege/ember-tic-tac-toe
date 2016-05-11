@@ -13,7 +13,7 @@
 <div class="holder">
   {{#each rows as |row|}}
     {{#each columns as |column|}}
-      <div class="tile {{row}} {{column}}" {{action "takeTurn" row column}}>
+    <div class="tile {{row}} {{column}}" {{action "takeTurn" row column}} {{action "takeTurn" row column on="touchEnd"}}>
         <div class="tile-content"></div>
       </div>
     {{/each}}
